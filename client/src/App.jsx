@@ -7,7 +7,7 @@ function App() {
   axios.defaults.withCredentials = true;
   return (
     <UserContextProvider>
-      <Routes />
+      <Routes /> 
     </UserContextProvider>
   )
 }

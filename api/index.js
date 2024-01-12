@@ -63,11 +63,11 @@ app.use(fileUpload());
   
   }
   
-  app.get('/test', (req,res) => {
+  app.get('/api/test', (req,res) => {
     res.json('test ok');
   });
   
-  app.get('/messages/:userId', async (req,res) => {
+  app.get('/api/messages/:userId', async (req,res) => {
     const {userId} = req.params;
     const userData = await getUserDataFromRequest(req);
     const ourUserId = userData.userId;
@@ -78,12 +78,12 @@ app.use(fileUpload());
     res.json(messages);
   });
   
-  app.get('/people', async (req,res) => {
+  app.get('/api/people', async (req,res) => {
     const users = await User.find({}, {'_id':1,username:1});
     res.json(users);
   });
   
-  app.get('/profile', (req,res) => {
+  app.get('/api/profile', (req,res) => {
     const token = req.cookies?.token;
     if (token) {
       jwt.verify(token, jwtSecret, {}, (err, userData) => {
@@ -95,7 +95,7 @@ app.use(fileUpload());
     }
   });
   
-  app.post('/login', async (req,res) => {
+  app.post('/api/login', async (req,res) => {
     // console.log("USERNAME");
     const {username, password} = req.body;
     // console.log("Password", password);
@@ -117,11 +117,11 @@ app.use(fileUpload());
     }
   });
   
-  app.post('/logout', (req,res) => {
+  app.post('/api/logout', (req,res) => {
     res.cookie('token', '', {sameSite:'none', secure:true}).json('ok');
   });
   
-  app.post('/register', async (req,res) => {
+  app.post('/api/register', async (req,res) => {
     const {username,password} = req.body;
     try {
       const hashedPassword = bcrypt.hashSync(password, bcryptSalt);

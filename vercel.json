@@ -1,15 +1,12 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "index.js",
-        "use": "@now/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/api/index.js"
-      }
+    "buildCommand": "cd client && yarn install && ./node_modules/vite/bin/vite.js build",
+    "outputDirectory": "client/dist",
+    "framework": "vite",
+    "rewrites": [
+        {
+            "source" : "/api/(.*)",
+            "destination": "/api/index.js"
+        }
     ]
-  }
+
+}

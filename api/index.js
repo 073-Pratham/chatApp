@@ -144,15 +144,8 @@ app.use(fileUpload());
   const server = app.listen(4040);
   
   const wss = new ws.WebSocketServer({ noServer: true });
-  server.on('upgrade', (request, socket, head) => {
-    wss.handleUpgrade(request, socket, head, (ws) => {
-      wss.emit('connection', ws, request);
-    });
-  });
-
   wss.on('connection', (connection, req) => {
-    const origin = req.headers.origin;
-    console.log(`WebSocket connection from origin ${origin}`);
+  
     function notifyAboutOnlinePeople() {
       [...wss.clients].forEach(client => {
         client.send(JSON.stringify({

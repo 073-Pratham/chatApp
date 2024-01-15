@@ -143,7 +143,7 @@ app.use(fileUpload());
   
   const server = app.listen(4040);
   
-  const wss = new ws.WebSocketServer({server});
+  const wss = new ws.WebSocketServer({ noServer: true });
   wss.on('connection', (connection, req) => {
   
     function notifyAboutOnlinePeople() {

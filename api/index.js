@@ -37,7 +37,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions ={
-    origin:'https://chat-app-tau-ruby.vercel.app/', 
+    origin:'http://localhost:5173', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
   } 
@@ -141,24 +141,9 @@ app.use(fileUpload());
     }
   });
   
-  // const server = app.listen(4040);
+  const server = app.listen(4040);
   
-  
-  // const wss = new ws.WebSocketServer({server});
-  
-  const server = http.createServer(app);
-  const allowedOrigin = 'https://chat-app-tau-ruby.vercel.app/'; // Update with your frontend URL
-  const wss = new WebSocket.Server({
-    noServer: true,
-    verifyClient: (info, cb) => {
-      const origin = info.origin || info.req.headers.origin;
-      if (!origin || origin !== allowedOrigin) {
-        cb(false, 403, 'Forbidden');
-      } else {
-        cb(true);
-      }
-    },
-  });
+  const wss = new ws.WebSocketServer({server});
   wss.on('connection', (connection, req) => {
   
     function notifyAboutOnlinePeople() {
@@ -246,15 +231,4 @@ app.use(fileUpload());
   
     // notify everyone about online people (when someone connects)
     notifyAboutOnlinePeople();
-  });
-
-  server.on('upgrade', (request, socket, head) => {
-    wss.handleUpgrade(request, socket, head, (ws) => {
-      wss.emit('connection', ws, request);
-    });
-  });
-  
-  const PORT = 4040;
-  server.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
   });

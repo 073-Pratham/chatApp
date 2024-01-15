@@ -19,7 +19,8 @@ export default function Chat() {
     connectToWs();
   }, [selectedUserId]);
   function connectToWs() {
-    const ws = new WebSocket('ws://localhost:4040');
+    // const ws = new WebSocket('ws://localhost:4040');
+    const ws = new WebSocket('ws://chat-app-tau-ruby.vercel.app/');
     setWs(ws);
     ws.addEventListener('message', handleMessage);
     ws.addEventListener('close', () => {

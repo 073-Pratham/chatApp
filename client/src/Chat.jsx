@@ -19,7 +19,8 @@ export default function Chat() {
     connectToWs();
   }, [selectedUserId]);
   function connectToWs() {
-    const ws = new WebSocket('ws://localhost:4040');
+    // const ws = new WebSocket('ws://localhost:4040');
+    const ws = new WebSocket(`ws://${window.location.host}/socket`);
     setWs(ws);
     ws.addEventListener('message', handleMessage);
     ws.addEventListener('close', () => {
@@ -179,7 +180,7 @@ export default function Chat() {
                           </a> */}
                           <img className="cursor-pointer"
                               src={`https://res.cloudinary.com/dctsq7knn/image/upload/v1704994122/${message.file}`}
-                              alt=""
+                              alt="image"
                           />
                         </div>
                       )}

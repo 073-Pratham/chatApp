@@ -141,9 +141,22 @@ app.use(fileUpload());
     }
   });
   
-  const server = app.listen(4040);
+  // const server = app.listen(4040);
   
-  const wss = new ws.WebSocketServer({ noServer: true });
+  // const wss = new ws.WebSocketServer({server});
+
+  const allowedOrigin = 'https://chat-app-tau-ruby.vercel.app/'; // Update with your frontend URL
+  const wss = new WebSocket.Server({
+    noServer: true,
+    verifyClient: (info, cb) => {
+      const origin = info.origin || info.req.headers.origin;
+      if (!origin || origin !== allowedOrigin) {
+        cb(false, 403, 'Forbidden');
+      } else {
+        cb(true);
+      }
+    },
+  });
   wss.on('connection', (connection, req) => {
   
     function notifyAboutOnlinePeople() {

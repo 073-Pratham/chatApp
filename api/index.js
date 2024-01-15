@@ -143,8 +143,10 @@ app.use(fileUpload());
   
   // const server = app.listen(4040);
   
+  
   // const wss = new ws.WebSocketServer({server});
-
+  
+  const server = http.createServer(app);
   const allowedOrigin = 'https://chat-app-tau-ruby.vercel.app/'; // Update with your frontend URL
   const wss = new WebSocket.Server({
     noServer: true,
@@ -244,4 +246,15 @@ app.use(fileUpload());
   
     // notify everyone about online people (when someone connects)
     notifyAboutOnlinePeople();
+  });
+
+  server.on('upgrade', (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit('connection', ws, request);
+    });
+  });
+  
+  const PORT = 4040;
+  server.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
   });
